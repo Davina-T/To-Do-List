@@ -1,0 +1,71 @@
+h1 {
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-size: 60px;
+}
+
+.curtain {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.curtain_wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+input[type=checkbox] {
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    opacity: 0;
+}
+
+/* If checkbox is checked, slide panels in */
+input[type=checkbox]:checked ~ div.curtain_panel_left {
+    transform: translateX(0);
+}
+
+input[type=checkbox]:checked ~ div.curtain_panel_right {
+    transform: translateX(0);
+}
+
+.curtain_panel {
+    background: #ff92a2;
+    width: 50%;
+    height: 100vh;
+    float: left;
+    position: relative; /* Needed to define the z-index */
+    z-index: 2;
+    transition: all 1s ease-out; /* Animates sliding transition */
+
+    display: flex;
+    align-items: center;
+}
+
+/* Default position of panels with unchecked checkbox */
+.curtain_panel_left {
+    transform: translateX(-100%);
+    justify-content: flex-end;
+}
+
+.curtain_panel_right {
+    transform: translateX(100%);
+    justify-content: flex-start;
+}
+
+.toDoList {
+    width: 100%;
+    height: 100%;
+    background-color:#333;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Patrick Hand', cursive;
+    color: white;
+    font-size: 40px;
+}
