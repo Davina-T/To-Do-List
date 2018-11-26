@@ -101,3 +101,8 @@ li {
     margin: 10px;
     font-size: 20px;
 }
+
+i {
+    float: right;
+    padding-left: 10px;
+}
