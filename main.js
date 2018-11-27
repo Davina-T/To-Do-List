@@ -23,23 +23,15 @@ function addItem() {
         const listItem = document.createElement("li");
 
         // Add input value to list item
-        // const removebtn = document.createElement("button");
-        // const checkbtn = document.createElement("button");
-
         listItem.classList.add("item");
         listItem.innerHTML = `<h5 class="item_name">${userInput.value}</h5>
                               <div class="item_icons">
                                 <a href="#" class="complete_item item-icon"><i class="fas fa-check"></i></a>                              
-                                <a href="#" class="remove_item item-icon"><i class="fas fa-times"></i></a>
+                                <a href="#" data-name="${userInput.value}" class="remove_item item-icon"><i class="fas fa-times"></i></a>
                               </div>`;
 
-        // removebtn.innerHTML = `<i class="fas fa-times" data-name="${userInput.value}"></i>`;
-        // removebtn.addEventListener("click", removeItem);
-        // checkbtn.innerHTML = `<i class="fas fa-check" data-name="${userInput.value}"></i>`;
 
         // Append child
-        // listItem.appendChild(removebtn);
-        // listItem.appendChild(checkbtn);
         toDoList.appendChild(listItem);
 
         // Local Storage
@@ -58,6 +50,7 @@ function addItem() {
 }
 
 function createLocalArray() {
+
     const toDoList = document.getElementById("itemsList");
 
     if (localStorage.getItem("ListItems") === null) {
@@ -70,21 +63,12 @@ function createLocalArray() {
             const listItem = document.createElement("li");
             listItem.classList.add("item");
 
-            // const removebtn = document.createElement("button");
-            // const checkbtn = document.createElement("button"); 
-            
-            // removebtn.innerHTML = `<i class="fas fa-times" data-name="${userInput.value}"></i>`
-            // removebtn.addEventListener("click", removeItem);
-            // checkbtn.innerHTML = `<i class="fas fa-check" data-name="${userInput.value}"></i>`
-
             listItem.innerHTML = `<h5 class="item_name">${item}</h5>
                                   <div class="item_icons">
                                     <a href="#" class="complete_item item-icon"><i class="fas fa-check"></i></a>                                  
-                                    <a href="#" class="remove_item item-icon"><i class="fas fa-times"></i></a>                                   
+                                    <a href="#" data-name="${item}" class="remove_item item-icon"><i class="fas fa-times"></i></a>                                   
                                   </div>`;
-
-            // listItem.appendChild(removebtn);
-            // listItem.appendChild(checkbtn);            
+         
             toDoList.appendChild(listItem);
         }
     }
@@ -92,6 +76,7 @@ function createLocalArray() {
 
 function completeItem(userinput) {
     const items = itemlist.querySelectorAll('.item');
+
     items.forEach(function(item) {
         if (item.querySelector(".item_name").textContent === userinput) {
             // Complete event listener
@@ -101,17 +86,25 @@ function completeItem(userinput) {
             });
             
             // Remove event listener
-            item.querySelector(".remove_item").addEventListener("click", function () {
-                removeItem(item);
+            item.querySelector(".remove_item").addEventListener("click", function () {  
+                const removedItem = this.getAttribute("data-name");
+
+                let itemdata = JSON.parse(localStorage.getItem("ListItems"));
+                removeElement(item);
+                
+                const newItemdata = itemdata.filter(function(item) {
+                    return item !== removedItem;
+                })
+
+                localStorage.setItem("ListItems", JSON.stringify(newItemdata));
+
                 alert("Item Successfully Removed");
             })
         }
     })
 }
 
-function removeItem(listItem) {
-    // Local Storage
-
-
-    removeElement(listItem);
-}    
+function start() {
+    localStorage.clear();
+    createLocalArray();
+}
