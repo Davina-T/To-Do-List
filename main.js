@@ -10,6 +10,9 @@ function removeElement(element) {
     element.parentElement.removeChild(element);
 }
 
+// Get elements
+const itemlist = document.querySelector(".itemList");
+
 function addItem() {
     // Get text input
     const userInput = document.getElementById("userInput");
@@ -20,15 +23,33 @@ function addItem() {
         const listItem = document.createElement("li");
 
         // Add input value to list item
-        listItem.innerHTML = `${userInput.value}<i class="fas fa-times"></i><i class="fas fa-check"></i>`;
+        // const removebtn = document.createElement("button");
+        // const checkbtn = document.createElement("button");
+
+        listItem.classList.add("item");
+        listItem.innerHTML = `<h5 class="item_name">${userInput.value}</h5>
+                              <div class="item_icons">
+                                <a href="#" class="complete_item item-icon"><i class="fas fa-check"></i></a>                              
+                                <a href="#" class="remove_item item-icon"><i class="fas fa-times"></i></a>
+                              </div>`;
+
+        // removebtn.innerHTML = `<i class="fas fa-times" data-name="${userInput.value}"></i>`;
+        // removebtn.addEventListener("click", removeItem);
+        // checkbtn.innerHTML = `<i class="fas fa-check" data-name="${userInput.value}"></i>`;
 
         // Append child
+        // listItem.appendChild(removebtn);
+        // listItem.appendChild(checkbtn);
         toDoList.appendChild(listItem);
 
         // Local Storage
         const itemArray = JSON.parse(localStorage.getItem("ListItems"));
         itemArray.push(userInput.value);
         localStorage.setItem("ListItems", JSON.stringify(itemArray));
+
+        // Event listeners to icons
+        completeItem(userInput.value);
+
 
         userInput.value = "";
     } else {
@@ -47,8 +68,50 @@ function createLocalArray() {
 
         for (const item of itemArray) {
             const listItem = document.createElement("li");
-            listItem.innerHTML = `${item}<i class="fas fa-times"></i><i class="fas fa-check"></i>`;
+            listItem.classList.add("item");
+
+            // const removebtn = document.createElement("button");
+            // const checkbtn = document.createElement("button"); 
+            
+            // removebtn.innerHTML = `<i class="fas fa-times" data-name="${userInput.value}"></i>`
+            // removebtn.addEventListener("click", removeItem);
+            // checkbtn.innerHTML = `<i class="fas fa-check" data-name="${userInput.value}"></i>`
+
+            listItem.innerHTML = `<h5 class="item_name">${item}</h5>
+                                  <div class="item_icons">
+                                    <a href="#" class="complete_item item-icon"><i class="fas fa-check"></i></a>                                  
+                                    <a href="#" class="remove_item item-icon"><i class="fas fa-times"></i></a>                                   
+                                  </div>`;
+
+            // listItem.appendChild(removebtn);
+            // listItem.appendChild(checkbtn);            
             toDoList.appendChild(listItem);
         }
     }
 }
+
+function completeItem(userinput) {
+    const items = itemlist.querySelectorAll('.item');
+    items.forEach(function(item) {
+        if (item.querySelector(".item_name").textContent === userinput) {
+            // Complete event listener
+            item.querySelector(".complete_item").addEventListener("click", function () {
+                item.querySelector(".item_name").classList.toggle("completed");
+                this.classList.toggle("visibility");
+            });
+            
+            // Remove event listener
+            item.querySelector(".remove_item").addEventListener("click", function () {
+                removeItem(item);
+                alert("Item Successfully Removed");
+            })
+        }
+    })
+}
+
+function removeItem(listItem) {
+    // Local Storage
+
+
+    removeElement(listItem);
+}    

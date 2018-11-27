@@ -102,7 +102,26 @@ li {
     font-size: 20px;
 }
 
-i {
-    float: right;
-    padding-left: 10px;
+.item {
+    display: flex;
+    justify-content: space-between;
 }
+
+.item-icon {
+    margin-left: 10px;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.visibility {
+    opacity: 0.5;
+}
+
+/* button {
+    float: right;
+    background: none;
+    border: none;
+} */
